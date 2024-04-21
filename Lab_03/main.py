@@ -2,6 +2,7 @@ from typing import TextIO
 
 import poly
 import spline
+import mixed
 
 
 def read_mtr(matrix: [list], n, file: TextIO):
@@ -34,6 +35,7 @@ def main():
 
     method = int(input("1. Сплайн\n"
                        "2. Полином Ньютона\n"
+                       "3. Смешанный метод\n"
                        "Введите метод: "))
 
     match method:
@@ -45,6 +47,10 @@ def main():
             nz = int(input("Введите количество узлов по z: "))
 
             print(f"U(x, y, z) = {poly.newton_3d_interpolation(mtr, x, y, z, nx, ny, nz)}")
+        case 3:
+            ny = int(input("Введите количество узлов по y: "))
+
+            print(f"U(x, y, z) = {mixed.mixed_3d(mtr, x, y, z, ny)}")
 
 
 if __name__ == "__main__":
