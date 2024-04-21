@@ -22,15 +22,29 @@ def read_mtr_3d(n, file):
 def main():
     file = open("data.txt")
 
+    mtr = read_mtr_3d(5, file)
+
+    file.close()
+
     x = float(input("Введите x: "))
     y = float(input("Введите y: "))
     z = float(input("Введите z: "))
 
-    mtr = read_mtr_3d(5, file)
+    value = 1
 
-    print(f"U(x, y, z) = {spline.spline_3d_interpolation(mtr, x, y, z)}")
+    method = int(input("1. Сплайн\n"
+                       "2. Полином Ньютона\n"
+                       "Введите метод: "))
 
-    file.close()
+    match method:
+        case 1:
+            print(f"U(x, y, z) = {spline.spline_3d_interpolation(mtr, x, y, z)}")
+        case 2:
+            nx = int(input("Введите количество узлов по x: "))
+            ny = int(input("Введите количество узлов по y: "))
+            nz = int(input("Введите количество узлов по z: "))
+
+            print(f"U(x, y, z) = {poly.newton_3d_interpolation(mtr, x, y, z, nx, ny, nz)}")
 
 
 if __name__ == "__main__":

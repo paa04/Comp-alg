@@ -89,7 +89,7 @@ def search_conf(arr, n, x):
 
     i = n
 
-    while conf[n // 2] < x and i < len(arr):
+    while conf[n // 2][0] < x and i < len(arr):
         conf.append(arr[i])
         i += 1
         conf = conf[1:]
@@ -132,11 +132,13 @@ def calc(x, n, name):
     arr = read_file(name, n, x)
     mtr = get_mtr(arr)
 
-    # for j in range(len(mtr)):
-    #     for i in range(len(mtr[j])):
-    #         print(mtr[j][i], end=" ")
-    #     print()
+    return get_ans(x, mtr)
 
+
+def calc_with_reg_arr(arr, x, n):
+    arr = get_arr(arr)
+    arr = search_conf(arr, n, x)
+    mtr = get_mtr(arr)
     return get_ans(x, mtr)
 
 
@@ -150,14 +152,34 @@ def calc_dir_2(x, n, name):
     return res
 
 
+def get_arr(arr):
+    ans = []
+    for i in range(len(arr)):
+        ans.append([i, arr[i]])
+
+    return ans
+
+
 def newton_2d_interpolation(mtr, x, y, nx, ny):
     n = len(mtr)
+
     arr = []
 
-    #TODO 
+    for i in range(n):
+        arr.append(calc_with_reg_arr(mtr[i], x, nx))
+
+    return calc_with_reg_arr(arr, y, ny)
 
 
+def newton_3d_interpolation(mtr, x, y, z, nx, ny, nz):
+    n = len(mtr)
 
+    arr = []
+
+    for k in range(n):
+        arr.append(newton_2d_interpolation(mtr[k], x, y, nx, ny))
+
+    return calc_with_reg_arr(arr, z, nz)
 
 
 if __name__ == "__main__":
